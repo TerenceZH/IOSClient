@@ -192,7 +192,9 @@ transient ActionListener listener16 = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			JInternalFrame view = new SaleAccountViewImpl().getSaleAccountView();
+			gui.getContentPane().add(view);
+			view.setVisible(true);
 		}
 	};
 	
@@ -201,7 +203,9 @@ transient ActionListener listener17 = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			JInternalFrame view = new SaleDetailViewImpl().getSaleDetailView();
+			gui.getContentPane().add(view);
+			view.setVisible(true);
 		}
 	};
 	
@@ -210,7 +214,9 @@ transient ActionListener listener18 = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			JInternalFrame view = new SaleLichengViewImpl().getSaleLichengView();
+			gui.getContentPane().add(view);
+			view.setVisible(true);
 		}
 	};
 	

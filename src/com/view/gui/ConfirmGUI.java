@@ -1,11 +1,17 @@
 package com.view.gui;
 
+import java.awt.List;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
+import javax.swing.text.TableView.TableRow;
 
 public class ConfirmGUI extends JInternalFrame{
+	
+	
 	public ConfirmGUI(){
 		initComponents();
 	}
@@ -51,6 +57,14 @@ public class ConfirmGUI extends JInternalFrame{
                 "选择", "时间", "From", "描述"
             }
         ));
+        
+        TableColumn checkColumn = jTable1.getColumnModel().getColumn(0);
+        checkColumn.setCellEditor(jTable1.getDefaultEditor(Boolean.class));
+        checkColumn.setCellRenderer(jTable1.getDefaultRenderer(Boolean.class));
+        int rowCount = jTable1.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+        	jTable1.getCellEditor(i, 0).getCellEditorValue();
+        }
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setText("审批");
@@ -90,8 +104,15 @@ public class ConfirmGUI extends JInternalFrame{
         pack();
     }// </editor-fold>                        
 
-    
-
+    public ArrayList<Boolean> getRowConfirm() {
+    	ArrayList<Boolean> list = new ArrayList<Boolean>();
+    	for(int i=0;i<jTable1.getRowCount();i++){
+    		list.add((Boolean)jTable1.getCellEditor(i, 0).getCellEditorValue());
+    	}
+		return list;
+    		
+    }
+	
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -4,10 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JCheckBox;
 import javax.swing.JInternalFrame;
-import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 
 import com.function.MsgDialog;
@@ -18,6 +17,8 @@ import com.view.view.ConfirmView;
 public class ConfirmViewImpl implements ConfirmView {
 	private ConfirmGUI gui;
 	private IBillService service;
+	
+	private List<String> list;
 	
 	public ConfirmViewImpl(IBillService s)throws Exception{
 		service = s;
@@ -47,6 +48,18 @@ public class ConfirmViewImpl implements ConfirmView {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			ArrayList<Boolean> l = gui.getRowConfirm();
+			if(l.size()==0){
+				MsgDialog.tip("请选择后审批！");
+			}else {
+				for(int i=0;i<l.size();i++){
+					if(l.get(i)){
+						String string = list.get(i);
+						String[]temp = string.split("$");
+						handleConfirm(temp[0]);
+					}
+				}
+			}
 			
 		}
 	};
@@ -64,18 +77,14 @@ public class ConfirmViewImpl implements ConfirmView {
 	public void handleShow(DefaultTableModel model) {
 		// TODO Auto-generated method stub
 		try{
-		ArrayList<String> list = service.queryBillToConfirm();
+		list = service.queryBillToConfirm();
 		if(list.size()==0){
 			MsgDialog.tip("无待审核的单子！");
 		}else{
 			for(String s:list){
 				String[] temp = s.split("$");
 				Object[]arr = new Object[4];
-				JCheckBox box = new JCheckBox();
-				box.setSelected(false);
-				
-				
-				arr[0] = box;
+				arr[0] = false;
 				arr[1] = temp[1];
 				arr[2] = temp[2];
 				arr[3] = temp[3];
