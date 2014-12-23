@@ -51,7 +51,7 @@ public class StockBjdViewImpl implements StockBjdView{
 	public void handleAdd(String no) {
 		// TODO Auto-generated method stub
 		try {
-			service.addStockBill(3, no, 0,Common.time(),MainViewImpl.user.getId());
+			service.addStockBill(2, no, 0,Common.time(),MainViewImpl.user.getId());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
