@@ -75,10 +75,14 @@ public class SaleAccountViewImpl implements SaleAccountView{
 		model.setColumnCount(0);
 		try{
 		ArrayList<String> list = service.getSaleAccount(stime, etime);
-		for(String s:list){
-			String temp[] = s.split("$");
-			String[]arr = {"收入类",temp[0],temp[1],temp[2]};
-			
+		for(int i=0;i<3;i++){
+			String temp[] = list.get(i).split("$");
+			String[]arr = new String[4];
+			//{"收入类",temp[0],temp[1],temp[2]};
+			arr[0] = i==0?"收入类":i==1?"支出类":"利润";
+			arr[1] = temp[1];
+			arr[2]  = temp[2];
+			arr[3]  =temp[3];
 			model.addRow(arr);
 		}
 		}catch(Exception e){
