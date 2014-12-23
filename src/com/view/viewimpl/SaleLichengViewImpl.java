@@ -5,11 +5,14 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
 import com.function.MsgDialog;
 import com.remote_interface.IBillService;
+import com.sun.accessibility.internal.resources.accessibility;
+import com.view.gui.BillGUI;
 import com.view.gui.SaleLichengGUI;
 import com.view.view.SaleLichengView;
 
@@ -17,6 +20,9 @@ public class SaleLichengViewImpl implements SaleLichengView{
 	
 	private SaleLichengGUI gui;
 	private IBillService service;
+	private BillGUI gui2;
+	
+	private String info = "";
 	
 	public SaleLichengViewImpl(IBillService s)throws RemoteException{
 		service = s;
@@ -53,6 +59,47 @@ public class SaleLichengViewImpl implements SaleLichengView{
 	};
 	
 
+	transient ActionListener hcHandler = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			String[]temp = info.split("$");
+			try {
+				service.hongchongBill(temp[0]);
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	};
+	
+	transient ActionListener hcfzHandler = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			String[]temp = info.split("$");
+			try {
+				service.hongchongBill(temp[0]);
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			gui2.dispose();
+			if(temp[2].equals("进货单")||temp[2].equals("进货退货单")){
+				JInternalFrame view = new ImportBillViewImpl().getImportBillView();
+				MainViewImpl.gui.getContentPane().add(view);
+				view.setVisible(true);
+			}else {
+				JInternalFrame view = new ExportBillViewImpl().getExportBillView();
+				MainViewImpl.gui.getContentPane().add(view);
+				view.setVisible(true);
+			}
+		}
+	};
+	
+	transient ActionListener [] hcsHandlers = {hcHandler,hcfzHandler};
 
 	@Override
 	public JInternalFrame getSaleLichengView() {
@@ -72,7 +119,22 @@ public class SaleLichengViewImpl implements SaleLichengView{
 		}else {
 			for(String s:list){
 				String[]temp = s.split("$");
-				String[]arr = {temp[0],temp[1],temp[2]};
+				JButton jbt = new JButton("查看");
+				jbt.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						gui2 = new BillGUI();
+						gui2.addListeners(hcsHandlers);
+						gui2.setInfo(temp[2]);
+						gui2.setVisible(true);
+						
+						info = s;
+					}
+				});
+				
+				Object[]arr = {temp[0],temp[1],jbt};
 				
 				model.addRow(arr);
 			}

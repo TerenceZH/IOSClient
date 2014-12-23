@@ -11,7 +11,7 @@ import com.view.gui.MainGUI;
 import com.view.view.MainView;
 
 public class MainViewImpl implements MainView{
-	private MainGUI gui;
+	public static  MainGUI gui;
 	
 	public static User user;
 
@@ -21,6 +21,7 @@ public class MainViewImpl implements MainView{
 		gui = new MainGUI(user.getUsername(),power,user.getType(),user.getGetTopAuthority());
 		gui.addMainListeners(listeners);
 	}
+	
 	
 	transient ActionListener listener1 = new ActionListener() {
 		
@@ -305,8 +306,32 @@ transient ActionListener listener26 = new ActionListener() {
 		}
 	};
 	
+transient ActionListener listener27 = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+
+			JInternalFrame view = new GetViewImpl().getGetView();
+			gui.getContentPane().add(view);
+			view.setVisible(true);
+		}
+	};
+	
+transient ActionListener listener28 = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+
+			JInternalFrame view = new PayViewImpl().getPayView();
+			gui.getContentPane().add(view);
+			view.setVisible(true);
+		}
+	};
+	
 	transient ActionListener [] listeners = {listener1,listener2,listener3,listener4,listener5
 			,listener6,listener7,listener8,listener9,listener10,listener11,listener12,listener13,listener14,
 			listener15,listener16,listener17,listener18,listener19,listener20,listener21,
-			listener22,listener23,listener24,listener25,listener26};
+			listener22,listener23,listener24,listener25,listener26,listener27,listener28};
 }

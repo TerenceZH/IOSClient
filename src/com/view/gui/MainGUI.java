@@ -44,7 +44,7 @@ public class MainGUI extends javax.swing.JFrame {
     	JMenuItem [] items = {jMenuItem1,jMenuItem2,jMenuItem3,jMenuItem4,jMenuItem5,jMenuItem6,jMenuItem7,
     			jMenuItem8,jMenuItem9,jMenuItem10,jMenuItem11,jMenuItem12,jMenuItem13,jMenuItem14,
     			jMenuItem15,jMenuItem16,jMenuItem17,jMenuItem18,jMenuItem19,jMenuItem20,jMenuItem21,jMenuItem22,
-    			jMenuItem23,jMenuItem24,jMenuItem25,jMenuItem26};
+    			jMenuItem23,jMenuItem24,jMenuItem25,jMenuItem26,jMenuItem27,jMenuItem28};
     	for(int i=0;i<items.length;i++){
     		items[i].addActionListener(a[i]);
     	}
@@ -76,6 +76,8 @@ public class MainGUI extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -143,6 +145,12 @@ public class MainGUI extends javax.swing.JFrame {
 
         jMenuItem6.setText("销售单");
         jMenu2.add(jMenuItem6);
+        
+        jMenuItem27.setText("收款单");
+        jMenu2.add(jMenuItem27);
+
+        jMenuItem28.setText("付款单");
+        jMenu2.add(jMenuItem28);
 
         jMenuBar1.add(jMenu2);
 
@@ -238,6 +246,7 @@ public class MainGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>         
     
+  
     //添加限制
     private void addLimits(int type,int auth){
     	JMenu[] a = null;
@@ -256,12 +265,12 @@ public class MainGUI extends javax.swing.JFrame {
 		case 2:
 			a = new JMenu[]{jMenu5,jMenu8,jMenu9};
 			b = new JMenuItem[]{jMenuItem1,jMenuItem2,jMenuItem4,jMenuItem11,jMenuItem12,jMenuItem13,
-					jMenuItem15,jMenuItem25};
+					jMenuItem15,jMenuItem25,jMenuItem27,jMenuItem28};
 			setEnable(a, b);
 			break;
 		case 3:
-			a =  new JMenu[]{jMenu2,jMenu5};
-			b = new JMenuItem[]{jMenuItem1,jMenuItem2,jMenuItem3,jMenuItem11,jMenuItem12,jMenuItem13,
+			a =  new JMenu[]{jMenu5};
+			b = new JMenuItem[]{jMenuItem5,jMenuItem6,jMenuItem1,jMenuItem2,jMenuItem3,jMenuItem11,jMenuItem12,jMenuItem13,
 					jMenuItem14,jMenuItem15,jMenuItem20,jMenuItem21,jMenuItem25};
 			setEnable(a, b);
 			break;
@@ -321,6 +330,8 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
