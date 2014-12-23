@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 
 import com.function.MsgDialog;
 import com.remote_interface.IBillService;
-import com.sun.accessibility.internal.resources.accessibility;
 import com.view.gui.BillGUI;
 import com.view.gui.SaleLichengGUI;
 import com.view.view.SaleLichengView;
@@ -66,7 +65,7 @@ public class SaleLichengViewImpl implements SaleLichengView{
 			// TODO Auto-generated method stub
 			String[]temp = info.split("$");
 			try {
-				service.hongchongBill(temp[0]);
+				service.hongchongBill(temp[0],MainViewImpl.user.getId());
 			} catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -81,7 +80,7 @@ public class SaleLichengViewImpl implements SaleLichengView{
 			// TODO Auto-generated method stub
 			String[]temp = info.split("$");
 			try {
-				service.hongchongBill(temp[0]);
+				service.hongchongBill(temp[0],MainViewImpl.user.getId());
 			} catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

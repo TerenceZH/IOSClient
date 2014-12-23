@@ -15,7 +15,6 @@ import com.model.Commodity;
 import com.model.ExportBill;
 import com.model.PortBillItem;
 import com.remote_interface.IExportService;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.view.gui.ExportBillGUI;
 import com.view.gui.PortBillItemGUI;
 import com.view.view.ExportBillView;

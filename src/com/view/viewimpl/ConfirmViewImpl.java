@@ -101,7 +101,7 @@ public class ConfirmViewImpl implements ConfirmView {
 	public void handleConfirm(String no) {
 		// TODO Auto-generated method stub
 		try {
-			service.modBillState(no);
+			service.modBillState(no,MainViewImpl.user.getId());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
