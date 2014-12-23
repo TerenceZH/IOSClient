@@ -15,6 +15,7 @@ import com.model.Commodity;
 import com.model.ExportBill;
 import com.model.PortBillItem;
 import com.remote_interface.IExportService;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.view.gui.ExportBillGUI;
 import com.view.gui.PortBillItemGUI;
 import com.view.view.ExportBillView;
@@ -23,6 +24,8 @@ public class ExportBillViewImpl implements ExportBillView{
 	private IExportService service;
 	private ExportBillGUI gui;
 	private PortBillItemGUI gui2;
+	
+	private ArrayList<String> list = new ArrayList<String>();
 
 	@Override
 	public JInternalFrame getExportBillView() {
@@ -35,18 +38,18 @@ public class ExportBillViewImpl implements ExportBillView{
 		gui = new ExportBillGUI();
 		gui.addImportListeners(handlers);
 		gui.addDjqListener(djqListener);
-		gui2 = new PortBillItemGUI();
+		/*gui2 = new PortBillItemGUI();
 		gui2.setVisible(false);
-		gui2.addPortBillItemListeners(handlers2);
+		gui2.addPortBillItemListeners(handlers2);*/
 	}
 	
 	public ExportBillViewImpl(){
 		gui = new ExportBillGUI();
 		gui.addImportListeners(handlers);
 		gui.addDjqListener(djqListener);
-		gui2 = new PortBillItemGUI();
+		/*gui2 = new PortBillItemGUI();
 		gui2.setVisible(false);
-		gui2.addPortBillItemListeners(handlers2);
+		gui2.addPortBillItemListeners(handlers2);*/
 	}
 	
 	
@@ -73,6 +76,8 @@ public class ExportBillViewImpl implements ExportBillView{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			gui2 = new PortBillItemGUI();
+			gui2.addPortBillItemListeners(handlers2);
 			gui2.setVisible(true);
 		}
 	};
@@ -84,7 +89,6 @@ public class ExportBillViewImpl implements ExportBillView{
 			// TODO Auto-generated method stub
 			String no = gui.getCusNo();
 			String warehouse = gui.getWare();
-			String info  = gui.getInfo();
 			String total = gui.getTotal();
 			String discount = gui.getDiscount();
 			String djq = gui.getDjq();
@@ -93,10 +97,10 @@ public class ExportBillViewImpl implements ExportBillView{
 			
 			if(no.length()==0){
 				MsgDialog.tip("请输入编号！");
-			}else if(info.length()==0){
+			}else if(list.size()==0){
 				MsgDialog.tip("请添加商品！");
 			}else {
-				handleAdd(no, warehouse, info, Double.parseDouble(total), Double.parseDouble(discount),Double.parseDouble(djq),Double.parseDouble(total2),desc);
+				handleAdd(no, warehouse,  Double.parseDouble(total), Double.parseDouble(discount),Double.parseDouble(djq),Double.parseDouble(total2),desc);
 			}
 			
 		}
@@ -186,8 +190,7 @@ transient ActionListener sortHandler2 = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			gui2.setNull();
-			gui2.setVisible(false);
+			gui2.dispose();
 		}
 	};
 	
@@ -198,12 +201,12 @@ transient ActionListener sortHandler2 = new ActionListener() {
 	
 
 	@Override
-	public void handleAdd(String cusno, String warehouse, String detail,
+	public void handleAdd(String cusno, String warehouse, 
 			double total, double discount, double djq, double total2,
 			String desc) {
 		// TODO Auto-generated method stub
 		try {
-			service.addExportBill(cusno, warehouse, MainViewImpl.user.getId(), detail, total, discount, djq, total2, desc, Common.time());
+			service.addExportBill(cusno, warehouse, MainViewImpl.user.getId(), list, total, discount, djq, total2, desc, Common.time());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -264,13 +267,15 @@ transient ActionListener sortHandler2 = new ActionListener() {
 			if(c==null){
 				MsgDialog.tip("商品不存在！");
 			}else {
-				String s = no+" "+c.getName()+" "+c.getStyle()+" 数量: "+quantity+" 单价: "+c.getInPrice()+" 总价: "+quantity*c.getInPrice()+";";
+				String s = no+" "+c.getName()+" "+c.getStyle()+" 数量: "+quantity+" 单价: "+c.getOutPrice()+" 总价: "+quantity*c.getOutPrice()+";";
 				gui.addToInfo(s);
 				gui.addToInfo("\n");
 				gui.setTotal(total+quantity*c.getInPrice()+"");
 				double dis = service.getDiscount(cusNo);
 				gui.setDiscount((total+quantity*c.getInPrice())*(10-dis)/10+"");
 				gui.setTotal2(total2-(total+quantity*c.getInPrice())*(10-dis)/10+"");
+				String in = no+","+quantity+","+c.getInPrice()+","+c.getOutPrice()*quantity;
+				list.add(in);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

@@ -22,21 +22,23 @@ public class ImportBillViewImpl implements ImportBillView{
 	private ImportBIllGUI gui;
 	private PortBillItemGUI gui2;
 	
+	private ArrayList<String> list = new ArrayList<String>();
+	
 	public ImportBillViewImpl(IImportService s)throws Exception{
 		service = s;
 		gui = new ImportBIllGUI();
 		gui.addImportListeners(handlers);
-		gui2 = new PortBillItemGUI();
+		/*gui2 = new PortBillItemGUI();
 		gui2.setVisible(false);
-		gui2.addPortBillItemListeners(handlers2);
+		gui2.addPortBillItemListeners(handlers2);*/
 	}
 	
 	public ImportBillViewImpl(){
 		gui = new ImportBIllGUI();
 		gui.addImportListeners(handlers);
-		gui2 = new PortBillItemGUI();
+		/*gui2 = new PortBillItemGUI();
 		gui2.setVisible(false);
-		gui2.addPortBillItemListeners(handlers2);
+		gui2.addPortBillItemListeners(handlers2);*/
 	}
 
 	transient ActionListener addItemHandler = new ActionListener() {
@@ -44,6 +46,8 @@ public class ImportBillViewImpl implements ImportBillView{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			gui2 = new PortBillItemGUI();
+			gui2.addPortBillItemListeners(handlers2);
 			gui2.setVisible(true);
 		}
 	};
@@ -55,16 +59,15 @@ public class ImportBillViewImpl implements ImportBillView{
 			// TODO Auto-generated method stub
 			String no = gui.getCusNo();
 			String warehouse = gui.getWare();
-			String info  = gui.getInfo();
 			String total = gui.getTotal();
 			String desc = gui.getDesc();
 			
 			if(no.length()==0){
 				MsgDialog.tip("请输入编号！");
-			}else if(info.length()==0){
+			}else if(list.size()==0){
 				MsgDialog.tip("请添加商品！");
 			}else {
-				handleAdd(no, warehouse, info, Double.parseDouble(total), desc);
+				handleAdd(no, warehouse, Double.parseDouble(total), desc);
 			}
 			
 		}
@@ -151,8 +154,7 @@ transient ActionListener sortHandler2 = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			gui2.setNull();
-			gui2.setVisible(false);
+			gui2.dispose();
 		}
 	};
 	
@@ -192,6 +194,8 @@ transient ActionListener sortHandler2 = new ActionListener() {
 				gui.addToInfo(s);
 				gui.addToInfo("\n");
 				gui.setTotal(total+quantity*c.getInPrice()+"");
+				String in = no+","+quantity+","+c.getInPrice()+","+c.getInPrice()*quantity;
+				list.add(in);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -199,11 +203,10 @@ transient ActionListener sortHandler2 = new ActionListener() {
 	}
 
 	@Override
-	public void handleAdd(String cusno, String warehouse, String detail,
-			double total, String desc) {
+	public void handleAdd(String cusno, String warehouse,double total, String desc) {
 		// TODO Auto-generated method stub
 		try {
-			service.addImportBill( cusno, warehouse, MainViewImpl.user.getId(), detail, total, desc, Common.time());
+			service.addImportBill( cusno, warehouse, MainViewImpl.user.getId(), list, total, desc, Common.time());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
